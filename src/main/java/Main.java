@@ -2,13 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.Scanner;
 
 /**
  * Created by minh on 7/16/14.
@@ -66,14 +63,37 @@ public class Main extends JFrame implements ActionListener {
         if(b == play){
             try {
                 Socket client = new Socket("localhost",18888);
-                DataInputStream dis = new DataInputStream(client.getInputStream());
-                DataOutputStream dos = new DataOutputStream(client.getOutputStream());
+                ObjectOutputStream oos = null;
+                ObjectInputStream ois = null;
+                try {
+                    OutputStream os = client.getOutputStream();
+                    InputStream is = client.getInputStream();
+                    oos = new ObjectOutputStream(os);
+                    ois = new ObjectInputStream(is);
 
-                String input = name.getText();
+                    try {
+                        CardDeck cardDeck = (CardDeck)ois.readObject();
+                        for (int i =0; i<cardDeck.getCards().size(); i++){
+                            System.out.println(cardDeck.getCards().get(i));
+                        }
+                        System.out.println(cardDeck.getCards().size());
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                } finally {
+                    if (oos != null) {
+                        oos.close();
+                    }
+                }
+                //String input = name.getText();
 
-                dos.writeUTF(input);
-                //dis.readUTF();
-                System.out.println(dis.readUTF());
+//                try {
+//                    Player p = (Player)ois.readObject();
+//                    p.printCardDeck();
+//                } catch (ClassNotFoundException e) {
+//                    e.printStackTrace();
+//                }
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
