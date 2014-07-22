@@ -10,7 +10,7 @@ import java.util.LinkedHashMap;
 /**
  * Created by minh on 7/16/14.
  */
-public class Main extends JFrame implements ActionListener {
+public class Client extends JFrame implements ActionListener {
     private static LinkedHashMap<Integer, String> cardMap = new LinkedHashMap<Integer, String>();
     private static ArrayList<Integer> cardDeck;
 
@@ -19,10 +19,10 @@ public class Main extends JFrame implements ActionListener {
 
     public static void main(String[] args) {
         setCardMap();
-        Main main = new Main();
+        Client main = new Client();
     }
 
-    public Main(){
+    public Client(){
         JPanel banner = new JPanel(new FlowLayout());
         banner.add(new JLabel(new ImageIcon("img/tienlen.jpg")));
         JPanel menu = new JPanel(new FlowLayout());
