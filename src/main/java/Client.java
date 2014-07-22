@@ -11,8 +11,9 @@ import java.util.LinkedHashMap;
  * Created by minh on 7/16/14.
  */
 public class Client extends JFrame implements ActionListener {
+
     private static LinkedHashMap<Integer, String> cardMap = new LinkedHashMap<Integer, String>();
-    private static ArrayList<Integer> cardDeck;
+    private Communicator communicator;
 
     private JButton play = new JButton("Play game");
     private JTextField name = new JTextField();
@@ -51,44 +52,25 @@ public class Client extends JFrame implements ActionListener {
         }
     }
 
-    // Display cards from server
-    private static void getCards(ArrayList<Integer> cards){
-        cardDeck.addAll(cards);
-    }
-
     @Override
     public void actionPerformed(ActionEvent ae) {
         JButton b = (JButton)ae.getSource();
         if(b == play){
             try {
                 Socket client = new Socket("localhost",18888);
-                ObjectOutputStream oos = null;
-                ObjectInputStream ois = null;
-                try {
-                    OutputStream os = client.getOutputStream();
-                    InputStream is = client.getInputStream();
-                    oos = new ObjectOutputStream(os);
-                    ois = new ObjectInputStream(is);
-
-                    try {
-                        CardDeck cardDeck = (CardDeck)ois.readObject();
-                        for (int i =0; i<cardDeck.getCards().size(); i++){
-                            System.out.println(cardDeck.getCards().get(i));
-                        }
-                        System.out.println(cardDeck.getCards().size());
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                } finally {
-                    if (oos != null) {
-                        oos.close();
-                    }
+                ObjectOutputStream oos = new ObjectOutputStream(
+                        client.getOutputStream());
+                ObjectInputStream ois = new ObjectInputStream(
+                        client.getInputStream());
+                communicator = new Communicator(client, ois, oos);
+                CardDeck cardDeck = (CardDeck)communicator.read();
+                for (int i = 0; i<cardDeck.getCards().size(); i++){
+                    System.out.println(cardDeck.getCards().get(i));
                 }
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            //dispose();
         }
     }
 }
