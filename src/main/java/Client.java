@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.xml.bind.SchemaOutputResolver;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +17,7 @@ public class Client extends JFrame implements ActionListener {
     private Communicator communicator;
 
     private JButton play = new JButton("Play game");
+    private JButton test = new JButton("Test"); // test button to test communication
     private JTextField name = new JTextField();
 
     public static void main(String[] args) {
@@ -31,8 +33,10 @@ public class Client extends JFrame implements ActionListener {
 
         name.setColumns(20);
         play.addActionListener(this);
+        test.addActionListener(this);
         menu.add(name);
         menu.add(play);
+        menu.add(test);
         add(menu, BorderLayout.SOUTH);
         add(banner, BorderLayout.CENTER);
 
@@ -41,6 +45,22 @@ public class Client extends JFrame implements ActionListener {
         setSize(600, 400);
         setLocation(100, 100);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // set up connection
+        // should only set up connection 1 time / client
+        Socket client = null;
+        ObjectInputStream ois = null;
+        ObjectOutputStream oos = null;
+        try {
+            client = new Socket("localhost",18888);
+            oos = new ObjectOutputStream(
+                    client.getOutputStream());
+            ois = new ObjectInputStream(
+                    client.getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        communicator = new Communicator(client, ois, oos);
     }
 
     private static void setCardMap(){
@@ -55,22 +75,30 @@ public class Client extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent ae) {
         JButton b = (JButton)ae.getSource();
+//        JButton b = (JButton)ae.getSource();
+//        Socket client = null;
+//        ObjectInputStream ois = null;
+//        ObjectOutputStream oos = null;
+//        try {
+//            client = new Socket("localhost",18888);
+//            oos = new ObjectOutputStream(
+//                    client.getOutputStream());
+//            ois = new ObjectInputStream(
+//                    client.getInputStream());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        communicator = new Communicator(client, ois, oos);
         if(b == play){
-            try {
-                Socket client = new Socket("localhost",18888);
-                ObjectOutputStream oos = new ObjectOutputStream(
-                        client.getOutputStream());
-                ObjectInputStream ois = new ObjectInputStream(
-                        client.getInputStream());
-                communicator = new Communicator(client, ois, oos);
-                CardDeck cardDeck = (CardDeck)communicator.read();
-                for (int i = 0; i<cardDeck.getCards().size(); i++){
-                    System.out.println(cardDeck.getCards().get(i));
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
+            CardDeck cardDeck = (CardDeck)communicator.read();
+            for (int i = 0; i<cardDeck.getCards().size(); i++){
+                System.out.println(cardDeck.getCards().get(i));
             }
+        } else if (b == test){
+            Test message = new Test(name.getText());
+            communicator.write(message);
+            message = (Test) communicator.read();
+            System.out.println(message.getMessage());
         }
     }
 }
