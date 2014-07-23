@@ -11,7 +11,7 @@ import java.util.LinkedHashMap;
 /**
  * Created by minh on 7/16/14.
  */
-public class Client extends JFrame implements ActionListener {
+public class Client extends JFrame implements ActionListener, Runnable {
 
     private static LinkedHashMap<Integer, String> cardMap = new LinkedHashMap<Integer, String>();
     private Communicator communicator;
@@ -61,6 +61,7 @@ public class Client extends JFrame implements ActionListener {
             e.printStackTrace();
         }
         communicator = new Communicator(client, ois, oos);
+        new Thread(this).start(); // start the thread/listen to server
     }
 
     private static void setCardMap(){
@@ -72,23 +73,10 @@ public class Client extends JFrame implements ActionListener {
         }
     }
 
+    // action is used to write something to the server
     @Override
     public void actionPerformed(ActionEvent ae) {
         JButton b = (JButton)ae.getSource();
-//        JButton b = (JButton)ae.getSource();
-//        Socket client = null;
-//        ObjectInputStream ois = null;
-//        ObjectOutputStream oos = null;
-//        try {
-//            client = new Socket("localhost",18888);
-//            oos = new ObjectOutputStream(
-//                    client.getOutputStream());
-//            ois = new ObjectInputStream(
-//                    client.getInputStream());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        communicator = new Communicator(client, ois, oos);
         if(b == play){
             CardDeck cardDeck = (CardDeck)communicator.read();
             for (int i = 0; i<cardDeck.getCards().size(); i++){
@@ -97,8 +85,19 @@ public class Client extends JFrame implements ActionListener {
         } else if (b == test){
             Test message = new Test(name.getText());
             communicator.write(message);
-            message = (Test) communicator.read();
-            System.out.println(message.getMessage());
+        }
+    }
+
+    // keep the communication to server alive
+    @Override
+    public void run() {
+        Object message = communicator.read();
+        while (message!=null){
+            if (message instanceof Test){
+                Test test = (Test)message;
+                System.out.println(test.getMessage());
+            }
+            message = communicator.read();
         }
     }
 }
