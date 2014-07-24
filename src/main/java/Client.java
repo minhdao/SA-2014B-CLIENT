@@ -22,6 +22,7 @@ public class Client extends JFrame implements ActionListener, Runnable {
     private JTextField name = new JTextField();
 
     private static Client instance = null;
+
     public static Client getInstance(){
         if (instance == null){
             instance = new Client();
@@ -31,7 +32,7 @@ public class Client extends JFrame implements ActionListener, Runnable {
 
     public static void main(String[] args) {
         setCardMap();
-        Client main = new Client();
+        getInstance();
     }
 
     public Client(){
@@ -93,8 +94,12 @@ public class Client extends JFrame implements ActionListener, Runnable {
         if(b == play){
             System.out.println("Play button pressed!!!!!!");
             communicator.write(name.getText());
-            dispose();// dispose the UI
-            CardTable ct = new CardTable();
+
+//            CardTable ct = new CardTable();
+            this.setVisible(false);// dispose the UI
+//            CardTable ct = new CardTable();
+//            ct.setVisible(true);
+            System.out.println("After card table is created");
         } else if (b == test){
             Test message = new Test(name.getText());
             communicator.write(message);
@@ -115,6 +120,8 @@ public class Client extends JFrame implements ActionListener, Runnable {
                 for(int i = 0; i < cardDeck.getCards().size();i++){
                     System.out.println(cardDeck.getCards().get(i));
                 }
+                CardTable ct = new CardTable();
+                ct.setVisible(true);
             }
             message = communicator.read();
         }

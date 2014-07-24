@@ -16,29 +16,29 @@ public class CardTable extends JFrame implements ActionListener{
 
     private Communicator talk;
 
-    public static void main(String[] args) {
-        CardTable main = new CardTable();
-    }
+//    public static void main(String[] args) {
+//        CardTable main = new CardTable();
+//    }
 
     public CardTable(){
-        JMenuBar bar = new JMenuBar();
-        JMenu file = new JMenu("File");
-        JMenu options = new JMenu("Options");
+//        JMenuBar bar = new JMenuBar();
+//        JMenu file = new JMenu("File");
+//        JMenu options = new JMenu("Options");
 
         exit.addActionListener(this);
         help.addActionListener(this);
         about.addActionListener(this);
 
-        file.add(exit);
-        options.add(help);
-        options.add(about);
-
-        bar.add(file);
-        bar.add(options);
+//        file.add(exit);
+//        options.add(help);
+//        options.add(about);
+//
+//        bar.add(file);
+//        bar.add(options);
 
         MainPlayer mp = new MainPlayer();
 
-        setJMenuBar(bar);
+//        setJMenuBar(bar);
 
         setLayout(new FlowLayout());
         setBackground(Color.WHITE);
@@ -50,7 +50,7 @@ public class CardTable extends JFrame implements ActionListener{
         add(mp);
 
         setTitle("TIEN LEN - Table");
-        setVisible(true);
+        setVisible(false); // set to false by default
         setSize(1024, 768);
         setLocation(100, 100);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
