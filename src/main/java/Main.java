@@ -1,3 +1,4 @@
+import javax.smartcardio.Card;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,10 +13,12 @@ import java.util.LinkedHashMap;
  */
 public class Main extends JFrame implements ActionListener {
     private static LinkedHashMap<Integer, String> cardMap = new LinkedHashMap<Integer, String>();
-    private static ArrayList<Integer> cardDeck;
+    private static CardDeck cardDeck;
 
     private JButton play = new JButton("Play game");
     private JTextField name = new JTextField();
+    private Communicator talk;
+    private CardTable ct;
 
     public static void main(String[] args) {
         setCardMap();
@@ -52,9 +55,8 @@ public class Main extends JFrame implements ActionListener {
         }
     }
 
-    // Display cards from server
-    private static void getCards(ArrayList<Integer> cards){
-        cardDeck.addAll(cards);
+    public static CardDeck getCardDeck() {
+        return cardDeck;
     }
 
     @Override
@@ -63,41 +65,21 @@ public class Main extends JFrame implements ActionListener {
         if(b == play){
             try {
                 Socket client = new Socket("localhost",18888);
-                ObjectOutputStream oos = null;
-                ObjectInputStream ois = null;
-                try {
-                    OutputStream os = client.getOutputStream();
-                    InputStream is = client.getInputStream();
-                    oos = new ObjectOutputStream(os);
-                    ois = new ObjectInputStream(is);
+                ObjectOutputStream oos = new ObjectOutputStream(client.getOutputStream());
+                ObjectInputStream ois = new ObjectInputStream(client.getInputStream());
+                talk = new Communicator(client,ois, oos);
 
-                    try {
-                        CardDeck cardDeck = (CardDeck)ois.readObject();
-                        for (int i =0; i<cardDeck.getCards().size(); i++){
-                            System.out.println(cardDeck.getCards().get(i));
-                        }
-                        System.out.println(cardDeck.getCards().size());
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                } finally {
-                    if (oos != null) {
-                        oos.close();
-                    }
+
+                cardDeck = (CardDeck)talk.read();
+                for (int i =0; i<cardDeck.getCards().size(); i++){
+                    System.out.println(cardDeck.getCards().get(i));
                 }
-                //String input = name.getText();
-
-//                try {
-//                    Player p = (Player)ois.readObject();
-//                    p.printCardDeck();
-//                } catch (ClassNotFoundException e) {
-//                    e.printStackTrace();
-//                }
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            //dispose();
+            dispose();
+            ct = new CardTable();
+            ct.setTalk(talk);
         }
     }
 }

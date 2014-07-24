@@ -1,0 +1,96 @@
+import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
+
+/**
+ * Created by Shinichi on 22/07/2014.
+ */
+public class MainPlayer extends JPanel implements ActionListener{
+    private JButton play = new JButton("Done");
+    private final ArrayList<Integer> selectedCards = new ArrayList<Integer>();
+    private final ArrayList<Integer> positionCards = new ArrayList<Integer>();
+    private final JLabel[] cards = new JLabel[13];
+
+    public MainPlayer(){
+        setLayout(new FlowLayout());
+        //setPreferredSize(new Dimension(500,500));
+
+        for(int i = 0; i < cards.length; i++){
+//            cards.add(new JLabel(new ImageIcon("img/deck/"+Main.getCardDeck().getCards().get(i)+".png")));
+            cards[i] = new JLabel(new ImageIcon("img/deck/"+Main.getCardDeck().getCards().get(i)+".png"));
+            final int[] count = {0};
+            final int[] index = {i};
+            cards[i].addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent ae) {
+
+                    if(count[0] == 1){
+                        selectedCards.remove(Main.getCardDeck().getCards().get(index[0]));
+                        positionCards.remove(Main.getCardDeck().getCards().indexOf(Main.getCardDeck().getCards().get(index[0])));
+                        cards[index[0]].setBorder(null);
+                        count[0] = 0;
+                    }else{
+                        Border border = LineBorder.createBlackLineBorder();
+                        cards[index[0]].setBorder(border);
+                        selectedCards.add(Main.getCardDeck().getCards().get(index[0]));
+                        positionCards.add(Main.getCardDeck().getCards().indexOf(Main.getCardDeck().getCards().get(index[0])));
+                        count[0]++;
+                    }
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+
+                }
+            });
+            add(cards[i]);
+        }
+        play.addActionListener(this);
+        add(play);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent ae) {
+        JButton b = (JButton)ae.getSource();
+        if(b == play){
+            System.out.println("-----SELECT-----");
+            for (int i = 0; i < selectedCards.size(); i++) {
+                System.out.println(selectedCards.get(i));
+
+            }
+            System.out.println("----POS------");
+            for (int i = 0; i < positionCards.size(); i++) {
+                System.out.println(positionCards.get(i));
+
+            }
+            System.out.println("----------");
+            for (int i = 0; i < positionCards.size(); i++) {
+                remove(cards[positionCards.get(i)]);
+
+            }
+            revalidate();
+            repaint();
+        }
+    }
+}
