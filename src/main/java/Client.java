@@ -15,10 +15,19 @@ public class Client extends JFrame implements ActionListener, Runnable {
 
     private static LinkedHashMap<Integer, String> cardMap = new LinkedHashMap<Integer, String>();
     private Communicator communicator;
+    private CardDeck cardDeck = new CardDeck();
 
     private JButton play = new JButton("Play game");
     private JButton test = new JButton("Test"); // test button to test communication
     private JTextField name = new JTextField();
+
+    private static Client instance = null;
+    public static Client getInstance(){
+        if (instance == null){
+            instance = new Client();
+        }
+        return instance;
+    }
 
     public static void main(String[] args) {
         setCardMap();
@@ -73,6 +82,10 @@ public class Client extends JFrame implements ActionListener, Runnable {
         }
     }
 
+    public CardDeck getCardDeck(){
+        return this.cardDeck;
+    }
+
     // action is used to write something to the server
     @Override
     public void actionPerformed(ActionEvent ae) {
@@ -96,7 +109,7 @@ public class Client extends JFrame implements ActionListener, Runnable {
                 System.out.println(test.getMessage());
             }
             if (message instanceof CardDeck){
-                CardDeck cardDeck = (CardDeck) message;
+                cardDeck = (CardDeck) message;
                 for(int i = 0; i < cardDeck.getCards().size();i++){
                     System.out.println(cardDeck.getCards().get(i));
                 }
