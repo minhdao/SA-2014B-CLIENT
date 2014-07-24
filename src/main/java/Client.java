@@ -78,10 +78,8 @@ public class Client extends JFrame implements ActionListener, Runnable {
     public void actionPerformed(ActionEvent ae) {
         JButton b = (JButton)ae.getSource();
         if(b == play){
-            CardDeck cardDeck = (CardDeck)communicator.read();
-            for (int i = 0; i<cardDeck.getCards().size(); i++){
-                System.out.println(cardDeck.getCards().get(i));
-            }
+            System.out.println("Play button pressed!!!!!!");
+            communicator.write(name.getText());
         } else if (b == test){
             Test message = new Test(name.getText());
             communicator.write(message);
@@ -96,6 +94,12 @@ public class Client extends JFrame implements ActionListener, Runnable {
             if (message instanceof Test){
                 Test test = (Test)message;
                 System.out.println(test.getMessage());
+            }
+            if (message instanceof CardDeck){
+                CardDeck cardDeck = (CardDeck) message;
+                for(int i = 0; i < cardDeck.getCards().size();i++){
+                    System.out.println(cardDeck.getCards().get(i));
+                }
             }
             message = communicator.read();
         }
