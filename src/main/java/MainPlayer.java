@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class MainPlayer extends JPanel implements ActionListener {
     private JButton play = new JButton("Submit");
     private JButton pass = new JButton("Pass");
-    private final ArrayList<Integer> selectedCards = new ArrayList<Integer>();
+    private final CardDeck selectedCards = new CardDeck();
     private final ArrayList<Integer> positionCards = new ArrayList<Integer>();
     private final JLabel[] cards = new JLabel[13];
     private Boolean[] isSelected = new Boolean[13];
@@ -32,13 +32,13 @@ public class MainPlayer extends JPanel implements ActionListener {
                 public void mouseClicked(MouseEvent ae) {
 
                     if(isSelected[index] == true){
-                        selectedCards.remove((Object)value); // remove object
+                        selectedCards.getCards().remove((Object)value); // remove object
                         cards[index].setBorder(null);
                         isSelected[index] = false;
                     }else{
                         Border border = LineBorder.createBlackLineBorder();
                         cards[index].setBorder(border);
-                        selectedCards.add(Client.getInstance().getCardDeck().getCards().get(index));
+                        selectedCards.getCards().add(Client.getInstance().getCardDeck().getCards().get(index));
                         isSelected[index] = true;
                     }
                 }
@@ -75,8 +75,8 @@ public class MainPlayer extends JPanel implements ActionListener {
         JButton b = (JButton)ae.getSource();
         if(b == play){
             System.out.println("-----SELECT-----");
-            for (int i = 0; i < selectedCards.size(); i++) {
-                System.out.println(selectedCards.get(i));
+            for (int i = 0; i < selectedCards.getCards().size(); i++) {
+                System.out.println(selectedCards.getCards().get(i));
 
             }
             System.out.println("----POS------");
@@ -84,11 +84,11 @@ public class MainPlayer extends JPanel implements ActionListener {
                 System.out.println(positionCards.get(i));
 
             }
-            System.out.println("----------");
-            for (int i = 0; i < positionCards.size(); i++) {
-                remove(cards[positionCards.get(i)]);
-
-            }
+//            System.out.println("----------");
+//            for (int i = 0; i < positionCards.size(); i++) {
+//                remove(cards[positionCards.get(i)]);
+//
+//            }
             revalidate();
             repaint();
         }
