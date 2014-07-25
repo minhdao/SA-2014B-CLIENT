@@ -16,6 +16,7 @@ public class Client extends JFrame implements ActionListener, Runnable {
     private static LinkedHashMap<Integer, String> cardMap = new LinkedHashMap<Integer, String>();
     private Communicator communicator;
     private CardDeck cardDeck = new CardDeck();
+    private CardTable ct;
 
     private JButton play = new JButton("Play game");
     private JButton test = new JButton("Test"); // test button to test communication
@@ -120,8 +121,14 @@ public class Client extends JFrame implements ActionListener, Runnable {
                 for(int i = 0; i < cardDeck.getCards().size();i++){
                     System.out.println(cardDeck.getCards().get(i));
                 }
-                CardTable ct = new CardTable();
+                ct = new CardTable();
                 ct.setVisible(true);
+            }
+            if (message instanceof Status){
+                Status status = (Status) message;
+                if (status == Status.Valid){
+                    System.out.println("Move is valid");
+                }
             }
             message = communicator.read();
         }
