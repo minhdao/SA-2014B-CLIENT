@@ -8,17 +8,12 @@ import java.awt.event.ActionListener;
  */
 public class CardTable extends JFrame implements ActionListener{
 
-    private JButton play = new JButton("Done");
-    private JTextField name = new JTextField();
     private JMenuItem exit = new JMenuItem("Exit");
     private JMenuItem help = new JMenuItem("Help");
     private JMenuItem about = new JMenuItem("About");
+    private MainPlayer mp;
 
     private Communicator talk;
-
-//    public static void main(String[] args) {
-//        CardTable main = new CardTable();
-//    }
 
     public CardTable(){
         JMenuBar bar = new JMenuBar();
@@ -36,17 +31,13 @@ public class CardTable extends JFrame implements ActionListener{
         bar.add(file);
         bar.add(options);
 
-        MainPlayer mp = new MainPlayer();
+        mp = new MainPlayer();
 
         setJMenuBar(bar);
 
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
 
-        name.setColumns(20);
-        play.addActionListener(this);
-//        add(name);
-//        add(play);
         add(mp, BorderLayout.SOUTH);
 
         setTitle("TIEN LEN - Table");
@@ -60,11 +51,12 @@ public class CardTable extends JFrame implements ActionListener{
         this.talk = talk;
     }
 
+    public MainPlayer getMp() {
+        return mp;
+    }
+
     @Override
     public void actionPerformed(ActionEvent ae) {
         JButton b = (JButton)ae.getSource();
-        if(b == play){
-            String in = "Test";
-        }
     }
 }

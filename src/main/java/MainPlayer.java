@@ -82,16 +82,6 @@ public class MainPlayer extends JPanel implements ActionListener {
 
             move = new Move(Client.getInstance().getName(), selectedCards);
             Client.getInstance().getCommunicator().write(move); // write player's move to server to check
-            System.out.println("----POS------");
-            for (int i = 0; i < positionCards.size(); i++) {
-                System.out.println(positionCards.get(i));
-
-            }
-//            System.out.println("----------");
-//            for (int i = 0; i < positionCards.size(); i++) {
-//                remove(cards[positionCards.get(i)]);
-//
-//            }
             revalidate();
             repaint();
         }
