@@ -52,7 +52,6 @@ public class CardTable extends JFrame implements ActionListener{
         setTitle("TIEN LEN - Table");
         setExtendedState(MAXIMIZED_BOTH);
         setVisible(false); // set to false by default
-//        setSize(1024, 800);
         setLocation(100, 100);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }

@@ -94,11 +94,7 @@ public class Client extends JFrame implements ActionListener, Runnable {
         if(b == play){
             System.out.println("Play button pressed!!!!!!");
             communicator.write(name.getText());
-
-//            CardTable ct = new CardTable();
             this.setVisible(false);// dispose the UI
-//            CardTable ct = new CardTable();
-//            ct.setVisible(true);
             System.out.println("After card table is created");
         } else if (b == test){
             Test message = new Test(name.getText());

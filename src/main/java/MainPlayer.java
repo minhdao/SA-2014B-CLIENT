@@ -13,7 +13,8 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 public class MainPlayer extends JPanel implements ActionListener {
-    private JButton play = new JButton("Done");
+    private JButton play = new JButton("Submit");
+    private JButton pass = new JButton("Pass");
     private final ArrayList<Integer> selectedCards = new ArrayList<Integer>();
     private final ArrayList<Integer> positionCards = new ArrayList<Integer>();
     private final JLabel[] cards = new JLabel[13];
@@ -68,6 +69,7 @@ public class MainPlayer extends JPanel implements ActionListener {
         }
         play.addActionListener(this);
         add(play);
+        add(pass);
     }
 
     @Override
