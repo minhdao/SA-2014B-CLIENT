@@ -22,6 +22,10 @@ public class MainPlayer extends JPanel implements ActionListener {
     private Move move;
 
     public MainPlayer(){
+        paintGUI();
+    }
+
+    public void paintGUI(){
         setLayout(new FlowLayout());
         for(int i = 0; i < cards.length; i++){
             cards[i] = new JLabel(new ImageIcon("img/deck/"+Client.getInstance().getCardDeck().getCards().get(i)+".png"));
@@ -82,8 +86,13 @@ public class MainPlayer extends JPanel implements ActionListener {
 
             move = new Move(Client.getInstance().getName(), selectedCards);
             Client.getInstance().getCommunicator().write(move); // write player's move to server to check
-            revalidate();
-            repaint();
         }
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        System.out.println("Paint component called");
+        paintGUI();
     }
 }

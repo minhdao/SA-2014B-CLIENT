@@ -128,6 +128,7 @@ public class Client extends JFrame implements ActionListener, Runnable {
                 Status status = (Status) message;
                 if (status == Status.Valid){
                     System.out.println("Move is valid");
+                    ct.getMp().repaint();
                 }
             }
             message = communicator.read();
