@@ -21,37 +21,38 @@ public class CardTable extends JFrame implements ActionListener{
 //    }
 
     public CardTable(){
-//        JMenuBar bar = new JMenuBar();
-//        JMenu file = new JMenu("File");
-//        JMenu options = new JMenu("Options");
+        JMenuBar bar = new JMenuBar();
+        JMenu file = new JMenu("File");
+        JMenu options = new JMenu("Options");
 
         exit.addActionListener(this);
         help.addActionListener(this);
         about.addActionListener(this);
 
-//        file.add(exit);
-//        options.add(help);
-//        options.add(about);
-//
-//        bar.add(file);
-//        bar.add(options);
+        file.add(exit);
+        options.add(help);
+        options.add(about);
+
+        bar.add(file);
+        bar.add(options);
 
         MainPlayer mp = new MainPlayer();
 
-//        setJMenuBar(bar);
+        setJMenuBar(bar);
 
-        setLayout(new FlowLayout());
+        setLayout(new BorderLayout());
         setBackground(Color.WHITE);
 
         name.setColumns(20);
         play.addActionListener(this);
-        add(name);
-        add(play);
-        add(mp);
+//        add(name);
+//        add(play);
+        add(mp, BorderLayout.SOUTH);
 
         setTitle("TIEN LEN - Table");
+        setExtendedState(MAXIMIZED_BOTH);
         setVisible(false); // set to false by default
-        setSize(1024, 768);
+//        setSize(1024, 800);
         setLocation(100, 100);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
