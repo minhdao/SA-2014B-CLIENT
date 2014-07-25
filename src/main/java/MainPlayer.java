@@ -18,28 +18,28 @@ public class MainPlayer extends JPanel implements ActionListener {
     private final ArrayList<Integer> selectedCards = new ArrayList<Integer>();
     private final ArrayList<Integer> positionCards = new ArrayList<Integer>();
     private final JLabel[] cards = new JLabel[13];
+    private Boolean[] isSelected = new Boolean[13];
 
     public MainPlayer(){
         setLayout(new FlowLayout());
         for(int i = 0; i < cards.length; i++){
             cards[i] = new JLabel(new ImageIcon("img/deck/"+Client.getInstance().getCardDeck().getCards().get(i)+".png"));
-            final int[] count = {0};
-            final int[] index = {i};
+            final int index = i;
+            final int value = Client.getInstance().getCardDeck().getCards().get(i);
+            isSelected[i] = false;
             cards[i].addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent ae) {
 
-                    if(count[0] == 1){
-                        selectedCards.remove(Client.getInstance().getCardDeck().getCards().get(index[0]));
-                        positionCards.remove(Client.getInstance().getCardDeck().getCards().indexOf(Client.getInstance().getCardDeck().getCards().get(index[0])));
-                        cards[index[0]].setBorder(null);
-                        count[0] = 0;
+                    if(isSelected[index] == true){
+                        selectedCards.remove((Object)value); // remove object
+                        cards[index].setBorder(null);
+                        isSelected[index] = false;
                     }else{
                         Border border = LineBorder.createBlackLineBorder();
-                        cards[index[0]].setBorder(border);
-                        selectedCards.add(Client.getInstance().getCardDeck().getCards().get(index[0]));
-                        positionCards.add(Client.getInstance().getCardDeck().getCards().indexOf(Client.getInstance().getCardDeck().getCards().get(index[0])));
-                        count[0]++;
+                        cards[index].setBorder(border);
+                        selectedCards.add(Client.getInstance().getCardDeck().getCards().get(index));
+                        isSelected[index] = true;
                     }
                 }
 
