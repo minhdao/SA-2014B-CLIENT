@@ -21,8 +21,6 @@ public class MainPlayer extends JPanel implements ActionListener {
 
     public MainPlayer(){
         setLayout(new FlowLayout());
-        //setPreferredSize(new Dimension(500,500));
-
         for(int i = 0; i < cards.length; i++){
             cards[i] = new JLabel(new ImageIcon("img/deck/"+Client.getInstance().getCardDeck().getCards().get(i)+".png"));
             final int[] count = {0};
