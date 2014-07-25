@@ -87,6 +87,10 @@ public class Client extends JFrame implements ActionListener, Runnable {
         return this.cardDeck;
     }
 
+    public Communicator getCommunicator() {
+        return communicator;
+    }
+
     // action is used to write something to the server
     @Override
     public void actionPerformed(ActionEvent ae) {

@@ -19,6 +19,7 @@ public class MainPlayer extends JPanel implements ActionListener {
     private final ArrayList<Integer> positionCards = new ArrayList<Integer>();
     private final JLabel[] cards = new JLabel[13];
     private Boolean[] isSelected = new Boolean[13];
+    private Move move;
 
     public MainPlayer(){
         setLayout(new FlowLayout());
@@ -77,8 +78,10 @@ public class MainPlayer extends JPanel implements ActionListener {
             System.out.println("-----SELECT-----");
             for (int i = 0; i < selectedCards.getCards().size(); i++) {
                 System.out.println(selectedCards.getCards().get(i));
-
             }
+
+            move = new Move(Client.getInstance().getName(), selectedCards);
+            Client.getInstance().getCommunicator().write(move); // write player's move to server to check
             System.out.println("----POS------");
             for (int i = 0; i < positionCards.size(); i++) {
                 System.out.println(positionCards.get(i));
