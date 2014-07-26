@@ -2,6 +2,11 @@
  * Created by minh on 7/15/14.
  */
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.util.Observable;
 
 /**
@@ -13,11 +18,15 @@ public class Player extends Observable{
 
     private static Player instance = null;
     private CardDeck cardDeck;
+    private Socket clientSocket;
+    private ObjectInputStream ois;
+    private ObjectOutputStream oos;
     private Communicator communicator;
 
     public static Player getInstance(){
         if (instance == null){
             instance = new Player();
+            instance.setUpCommunicator();
         }
         return instance;
     }
@@ -37,6 +46,21 @@ public class Player extends Observable{
 
     public CardDeck getCardDeck() {
         return cardDeck;
+    }
+
+    private void setUpCommunicator(){
+        try {
+            clientSocket = new Socket(Client.serverAddress, Client.serverPort);
+            oos = new ObjectOutputStream(clientSocket.getOutputStream());
+            ois = new ObjectInputStream(clientSocket.getInputStream());
+            communicator = new Communicator(clientSocket, ois, oos);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Communicator getCommunicator() {
+        return communicator;
     }
 
     // method to update card deck

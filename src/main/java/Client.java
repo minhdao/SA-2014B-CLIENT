@@ -5,6 +5,8 @@ public class Client {
 
     private static Client instance = null;
     private StartGameFrame startGameFrame;
+    public static final String serverAddress = "localhost";
+    public static final int serverPort = 18888;
 
     public static Client getInstance(){
         if (instance == null){
