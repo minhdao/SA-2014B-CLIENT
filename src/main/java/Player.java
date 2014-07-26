@@ -13,6 +13,7 @@ public class Player extends Observable{
 
     private static Player instance = null;
     private CardDeck cardDeck;
+    private Communicator communicator;
 
     public static Player getInstance(){
         if (instance == null){
