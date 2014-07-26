@@ -128,7 +128,12 @@ public class Client extends JFrame implements ActionListener, Runnable {
                 Status status = (Status) message;
                 if (status == Status.Valid){
                     System.out.println("Move is valid");
-                    ct.getMp().repaint();
+                    // remove played valid cards from player's card deck to repaint
+                    for (int i = 0; i < ct.getMp().getSelectedCards().getCards().size();i++){
+                        cardDeck.getCards().remove((Object)ct.getMp().getSelectedCards().getCards().get(i));
+                    }
+//                    ct.getMp().validate();
+//                    ct.getMp().repaint(); // repaint
                 }
             }
             message = communicator.read();

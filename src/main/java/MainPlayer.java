@@ -16,7 +16,6 @@ public class MainPlayer extends JPanel implements ActionListener {
     private JButton play = new JButton("Submit");
     private JButton pass = new JButton("Pass");
     private final CardDeck selectedCards = new CardDeck();
-    private final ArrayList<Integer> positionCards = new ArrayList<Integer>();
     private final JLabel[] cards = new JLabel[13];
     private Boolean[] isSelected = new Boolean[13];
     private Move move;
@@ -75,6 +74,10 @@ public class MainPlayer extends JPanel implements ActionListener {
         add(pass);
     }
 
+    public CardDeck getSelectedCards() {
+        return selectedCards;
+    }
+
     @Override
     public void actionPerformed(ActionEvent ae) {
         JButton b = (JButton)ae.getSource();
@@ -93,6 +96,5 @@ public class MainPlayer extends JPanel implements ActionListener {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         System.out.println("Paint component called");
-        paintGUI();
     }
 }
