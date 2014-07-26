@@ -40,8 +40,7 @@ public class StartGameFrame extends JFrame implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         this.setVisible(false);
-        Player.getInstance();
-        CardTableFrame.getInstance();
+        Player.getInstance().getCommunicator().write("Minh");
     }
 
     @Override

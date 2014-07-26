@@ -14,7 +14,7 @@ import java.util.Observable;
  * Each player is a thread and should be carefully manage TODO
  **/
 
-public class Player extends Observable{
+public class Player extends Observable implements Runnable {
 
     private static Player instance = null;
     private CardDeck cardDeck;
@@ -23,32 +23,33 @@ public class Player extends Observable{
     private ObjectOutputStream oos;
     private Communicator communicator;
 
-    public static Player getInstance(){
-        if (instance == null){
+    public static Player getInstance() {
+        if (instance == null) {
             instance = new Player();
             instance.setUpCommunicator();
+            new Thread(instance).start();
         }
         return instance;
     }
 
-    public Player(){
+    public Player() {
         cardDeck = new CardDeck();
 
         // these are to test only
         // TODO remove when done
-        cardDeck.getCards().add(30);
-        cardDeck.getCards().add(40);
-        cardDeck.getCards().add(50);
-        cardDeck.getCards().add(60);
-        cardDeck.getCards().add(70);
-        cardDeck.getCards().add(80);
+//        cardDeck.getCards().add(30);
+//        cardDeck.getCards().add(40);
+//        cardDeck.getCards().add(50);
+//        cardDeck.getCards().add(60);
+//        cardDeck.getCards().add(70);
+//        cardDeck.getCards().add(80);
     }
 
     public CardDeck getCardDeck() {
         return cardDeck;
     }
 
-    private void setUpCommunicator(){
+    private void setUpCommunicator() {
         try {
             clientSocket = new Socket(Client.serverAddress, Client.serverPort);
             oos = new ObjectOutputStream(clientSocket.getOutputStream());
@@ -64,9 +65,9 @@ public class Player extends Observable{
     }
 
     // method to update card deck
-    public void updateCardDeck(CardDeck playedCards){
-        for (int i =0; i < playedCards.getCards().size(); i++){
-            this.cardDeck.getCards().remove((Object)playedCards.getCards().get(i));
+    public void updateCardDeck(CardDeck playedCards) {
+        for (int i = 0; i < playedCards.getCards().size(); i++) {
+            this.cardDeck.getCards().remove((Object) playedCards.getCards().get(i));
         }
         printCardDeck();
         setChanged();
@@ -74,10 +75,33 @@ public class Player extends Observable{
     }
 
     // method for testing - print out card deck of player
-    public void printCardDeck(){
+    public void printCardDeck() {
         System.out.println("Total cards: " + cardDeck.getCards().size());
-        for (int i =0; i < cardDeck.getCards().size(); i++){
+        for (int i = 0; i < cardDeck.getCards().size(); i++) {
             System.out.println(cardDeck.getCards().get(i));
+        }
+    }
+
+    @Override
+    public void run() {
+        Object message = communicator.read();
+        while (message != null) {
+            if (message instanceof Test) {
+                Test test = (Test) message;
+                System.out.println(test.getMessage());
+            }
+            if (message instanceof CardDeck) {
+                cardDeck = (CardDeck) message;
+                for (int i = 0; i < cardDeck.getCards().size(); i++) {
+                    System.out.println(cardDeck.getCards().get(i));
+                }
+                CardTableFrame.getInstance();
+            }
+            if (message instanceof String){
+                String string = (String) message;
+                System.out.println(string);
+            }
+            message = communicator.read();
         }
     }
 }
