@@ -103,8 +103,14 @@ public class Player extends Observable implements Runnable {
             }
             if (message instanceof Status){
                 Status status = (Status) message;
+
+                // to see what status is
                 System.out.println("Status: ");
                 System.out.println(status.toString());
+
+                if (status == Status.Valid){
+//                    updateCardDeck();
+                }
             }
             message = communicator.read();
         }
