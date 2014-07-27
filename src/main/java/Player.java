@@ -120,7 +120,7 @@ public class Player extends Observable implements Runnable {
                 }
 
                 if (status == Status.Invalid){
-                    GameStatusPanel.getInstance().getTextArea().setText("Invalid move");
+                    GameStatusPanel.getInstance().getTextArea().setText("Invalid Move");
                 }
             }
             message = communicator.read();
