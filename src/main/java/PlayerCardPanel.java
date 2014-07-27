@@ -16,7 +16,7 @@ public class PlayerCardPanel extends JPanel implements ActionListener, Observer 
 
     private JButton play = new JButton("Submit");
     private JButton pass = new JButton("Pass");
-    private final CardDeck selectedCards = new CardDeck();
+    private CardDeck selectedCards = new CardDeck();
     private JLabel[] cards;
     private Boolean[] isSelected = new Boolean[13];
     private Move move;
