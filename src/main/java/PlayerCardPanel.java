@@ -85,7 +85,11 @@ public class PlayerCardPanel extends JPanel implements ActionListener, Observer 
             for (int i = 0; i < selectedCards.getCards().size(); i++) {
                 System.out.println(selectedCards.getCards().get(i));
             }
-            Player.getInstance().updateCardDeck(selectedCards);
+            // send selected cards to server
+            Player.getInstance().getCommunicator().write(new Move("Minh", selectedCards));
+
+            // update card deck of the player based on played cards
+//            Player.getInstance().updateCardDeck(selectedCards);
 
 //            move = new Move(Client.getInstance().getName(), selectedCards);
 //            Client.getInstance().getCommunicator().write(move); // write player's move to server to check
