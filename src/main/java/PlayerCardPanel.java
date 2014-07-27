@@ -14,8 +14,8 @@ import java.util.Observer;
  */
 public class PlayerCardPanel extends JPanel implements ActionListener, Observer {
 
-    private JButton play = new JButton("Submit");
-    private JButton pass = new JButton("Pass");
+    private JButton play;
+    private JButton pass;
 //    private CardDeck selectedCards = new CardDeck();
     private JLabel[] cards;
     private Boolean[] isSelected = new Boolean[13];
@@ -27,6 +27,8 @@ public class PlayerCardPanel extends JPanel implements ActionListener, Observer 
     }
 
     public void paintGUI(){
+        play = new JButton("Submit");
+        pass = new JButton("Pass");
         cards = new JLabel[13];
         setLayout(new FlowLayout());
         for(int i = 0; i < Player.getInstance().getCardDeck().getCards().size(); i++){
@@ -48,6 +50,7 @@ public class PlayerCardPanel extends JPanel implements ActionListener, Observer 
                         cards[index].setBorder(border);
 //                        selectedCards.getCards().add(Player.getInstance().getCardDeck().getCards().get(index));
                         Player.getInstance().getSelectedCards().getCards().add(Player.getInstance().getCardDeck().getCards().get(index));
+                        System.out.println("Card to be added in is: " + Player.getInstance().getCardDeck().getCards().get(index));
                         isSelected[index] = true;
                     }
                 }
@@ -83,7 +86,7 @@ public class PlayerCardPanel extends JPanel implements ActionListener, Observer 
     public void actionPerformed(ActionEvent e) {
         JButton b = (JButton)e.getSource();
         if(b == play){
-            System.out.println("-----SELECT-----");
+            System.out.println("-----SUBMIT BUTTON PRESSED-----");
             for (int i = 0; i < Player.getInstance().getSelectedCards().getCards().size(); i++) {
                 System.out.println(Player.getInstance().getSelectedCards().getCards().get(i));
             }
@@ -100,10 +103,12 @@ public class PlayerCardPanel extends JPanel implements ActionListener, Observer 
 
     @Override
     public void update(Observable o, Object arg) {
-        removeAll();
-        paintGUI();
-        validate();
-        repaint();
-        System.out.println("Update ran!!!!");
+
+            removeAll();
+            paintGUI();
+            validate();
+            repaint();
+            System.out.println("Update ran!!!!");
+
     }
 }
