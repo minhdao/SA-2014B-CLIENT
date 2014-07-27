@@ -126,7 +126,15 @@ public class Player extends Observable implements Runnable {
             if (message instanceof Move){
                 Move move = (Move) message;
                 if (move.getType() == Status.PreviousMove){
+                    // code to test TODO remove when done
+                    System.out.println("Move type: " + move.getType().toString());
+                    System.out.println("Previously moved cards: ");
+                    for (int i = 0; i < move.getCards().getCards().size(); i++){
+                        System.out.println(move.getCards().getCards().get(i));
+                    }
+
                     // pass cards of previous move to previously played card panel to update
+                    
                 }
             }
             message = communicator.read();
