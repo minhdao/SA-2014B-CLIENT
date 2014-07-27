@@ -19,6 +19,7 @@ public class Player extends Observable implements Runnable {
     private static Player instance = null;
     private CardDeck cardDeck;
     private CardDeck selectedCards;
+    private CardDeck previousMoveCards;
     private Socket clientSocket;
     private ObjectInputStream ois;
     private ObjectOutputStream oos;
@@ -36,7 +37,7 @@ public class Player extends Observable implements Runnable {
     public Player() {
         cardDeck = new CardDeck();
         selectedCards = new CardDeck();
-
+        previousMoveCards = new CardDeck();
         // these are to test only
         // TODO remove when done
 //        cardDeck.getCards().add(30);
