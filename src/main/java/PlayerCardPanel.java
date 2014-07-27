@@ -16,7 +16,7 @@ public class PlayerCardPanel extends JPanel implements ActionListener, Observer 
 
     private JButton play = new JButton("Submit");
     private JButton pass = new JButton("Pass");
-    private CardDeck selectedCards = new CardDeck();
+//    private CardDeck selectedCards = new CardDeck();
     private JLabel[] cards;
     private Boolean[] isSelected = new Boolean[13];
     private Move move;
@@ -39,13 +39,15 @@ public class PlayerCardPanel extends JPanel implements ActionListener, Observer 
                 public void mouseClicked(MouseEvent ae) {
 
                     if(isSelected[index] == true){
-                        selectedCards.getCards().remove((Object)value); // remove object
+//                        selectedCards.getCards().remove((Object)value); // remove object
+                        Player.getInstance().getSelectedCards().getCards().remove((Object)value);
                         cards[index].setBorder(null);
                         isSelected[index] = false;
                     }else{
                         Border border = LineBorder.createBlackLineBorder();
                         cards[index].setBorder(border);
-                        selectedCards.getCards().add(Player.getInstance().getCardDeck().getCards().get(index));
+//                        selectedCards.getCards().add(Player.getInstance().getCardDeck().getCards().get(index));
+                        Player.getInstance().getSelectedCards().getCards().add(Player.getInstance().getCardDeck().getCards().get(index));
                         isSelected[index] = true;
                     }
                 }
@@ -82,11 +84,11 @@ public class PlayerCardPanel extends JPanel implements ActionListener, Observer 
         JButton b = (JButton)e.getSource();
         if(b == play){
             System.out.println("-----SELECT-----");
-            for (int i = 0; i < selectedCards.getCards().size(); i++) {
-                System.out.println(selectedCards.getCards().get(i));
+            for (int i = 0; i < Player.getInstance().getSelectedCards().getCards().size(); i++) {
+                System.out.println(Player.getInstance().getSelectedCards().getCards().get(i));
             }
             // send selected cards to server
-            Player.getInstance().getCommunicator().write(new Move("Minh", selectedCards));
+            Player.getInstance().getCommunicator().write(new Move("Minh", Player.getInstance().getSelectedCards()));
 
             // update card deck of the player based on played cards
 //            Player.getInstance().updateCardDeck(selectedCards);

@@ -66,6 +66,10 @@ public class Player extends Observable implements Runnable {
         return communicator;
     }
 
+    public CardDeck getSelectedCards() {
+        return selectedCards;
+    }
+
     // method to update card deck
     public void updateCardDeck(CardDeck playedCards) {
         for (int i = 0; i < playedCards.getCards().size(); i++) {
