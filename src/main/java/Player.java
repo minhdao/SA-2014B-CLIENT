@@ -101,6 +101,11 @@ public class Player extends Observable implements Runnable {
                 String string = (String) message;
                 System.out.println(string);
             }
+            if (message instanceof Status){
+                Status status = (Status) message;
+                System.out.println("Status: ");
+                System.out.println(status.toString());
+            }
             message = communicator.read();
         }
     }
