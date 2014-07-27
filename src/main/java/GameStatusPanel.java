@@ -19,6 +19,7 @@ public class GameStatusPanel extends JPanel {
 
     public GameStatusPanel(){
         textArea = new JLabel();
+        textArea.setText("Status panel here");
         add(textArea);
     }
 
