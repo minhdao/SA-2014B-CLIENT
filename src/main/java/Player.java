@@ -117,6 +117,8 @@ public class Player extends Observable implements Runnable {
                 if (status == Status.Valid){
                     updateCardDeck(selectedCards);
                 }
+
+                if (status == )
             }
             message = communicator.read();
         }
