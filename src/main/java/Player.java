@@ -123,6 +123,12 @@ public class Player extends Observable implements Runnable {
                     GameStatusPanel.getInstance().getTextArea().setText("Invalid Move");
                 }
             }
+            if (message instanceof Move){
+                Move move = (Move) message;
+                if (move.getType() == Status.PreviousMove){
+                    // pass cards of previous move to previously played card panel to update
+                }
+            }
             message = communicator.read();
         }
     }
