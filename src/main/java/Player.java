@@ -20,6 +20,7 @@ public class Player extends Observable implements Runnable {
     private CardDeck cardDeck;
     private CardDeck selectedCards;
     private CardDeck previousMoveCards;
+    private Move previousMove = null;
     private Socket clientSocket;
     private ObjectInputStream ois;
     private ObjectOutputStream oos;
@@ -69,6 +70,10 @@ public class Player extends Observable implements Runnable {
 
     public CardDeck getSelectedCards() {
         return selectedCards;
+    }
+
+    public Move getPreviousMove() {
+        return previousMove;
     }
 
     // method to update card deck
@@ -124,17 +129,17 @@ public class Player extends Observable implements Runnable {
                 }
             }
             if (message instanceof Move){
-                Move move = (Move) message;
-                if (move.getType() == Status.PreviousMove){
+                previousMove = (Move) message;
+                if (previousMove.getType() == Status.PreviousMove){
                     // code to test TODO remove when done
-                    System.out.println("Move type: " + move.getType().toString());
+                    System.out.println("Move type: " + previousMove.getType().toString());
                     System.out.println("Previously moved cards: ");
-                    for (int i = 0; i < move.getCards().getCards().size(); i++){
-                        System.out.println(move.getCards().getCards().get(i));
+                    for (int i = 0; i < previousMove.getCards().getCards().size(); i++){
+                        System.out.println(previousMove.getCards().getCards().get(i));
                     }
 
                     // pass cards of previous move to previously played card panel to update
-                    
+
                 }
             }
             message = communicator.read();
