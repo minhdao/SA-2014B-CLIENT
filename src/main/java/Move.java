@@ -14,4 +14,12 @@ public class Move implements Serializable{
         this.playerName = playerName;
         this.cards = cards;
     }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public CardDeck getCards() {
+        return cards;
+    }
 }
