@@ -30,6 +30,7 @@ public class PlayerCardPanel extends JPanel implements ActionListener, Observer 
         play = new JButton("Submit");
         pass = new JButton("Pass");
         cards = new JLabel[13];
+
         setLayout(new FlowLayout());
         for(int i = 0; i < Player.getInstance().getCardDeck().getCards().size(); i++){
             cards[i] = new JLabel(new ImageIcon("img/deck/"+Player.getInstance().getCardDeck().getCards().get(i)+".png"));
@@ -87,12 +88,14 @@ public class PlayerCardPanel extends JPanel implements ActionListener, Observer 
         JButton b = (JButton)e.getSource();
         if(b == play){
             System.out.println("-----SUBMIT BUTTON PRESSED-----");
+            System.out.print("Selected cards: ");
             for (int i = 0; i < Player.getInstance().getSelectedCards().getCards().size(); i++) {
-                System.out.println(Player.getInstance().getSelectedCards().getCards().get(i));
+                System.out.print(Player.getInstance().getSelectedCards().getCards().get(i) + " ");
             }
+            System.out.println();
             // send selected cards to server
             Player.getInstance().getCommunicator().write(new Move("Minh", Player.getInstance().getSelectedCards()));
-
+            System.out.println("Wrote to server");
             // update card deck of the player based on played cards
 //            Player.getInstance().updateCardDeck(selectedCards);
 

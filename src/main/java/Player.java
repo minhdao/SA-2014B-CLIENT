@@ -49,6 +49,10 @@ public class Player extends Observable implements Runnable {
 //        cardDeck.getCards().add(80);
     }
 
+    public void renewSelectedCard(){
+        selectedCards = new CardDeck();
+    }
+
     public CardDeck getCardDeck() {
         return cardDeck;
     }
@@ -79,9 +83,11 @@ public class Player extends Observable implements Runnable {
     // method to update card deck
     public void updateCardDeck(CardDeck playedCards) {
         for (int i = 0; i < playedCards.getCards().size(); i++) {
-            this.cardDeck.getCards().remove((Object) playedCards.getCards().get(i));
+            int value = playedCards.getCards().get(i);
+            this.cardDeck.getCards().remove((Object) value);
+            renewSelectedCard();
         }
-        printCardDeck();
+//        printCardDeck();
         setChanged();
         notifyObservers(cardDeck);
     }
@@ -117,7 +123,7 @@ public class Player extends Observable implements Runnable {
                 Status status = (Status) message;
 
                 // to see what status is
-                System.out.println("Status: ");
+                System.out.print("Status: ");
                 System.out.println(status.toString());
 
                 if (status == Status.Valid){
@@ -133,9 +139,9 @@ public class Player extends Observable implements Runnable {
                 if (previousMove.getType() == Status.PreviousMove){
                     // code to test TODO remove when done
                     System.out.println("Move type: " + previousMove.getType().toString());
-                    System.out.println("Previously moved cards: ");
+                    System.out.print("Previously moved cards: ");
                     for (int i = 0; i < previousMove.getCards().getCards().size(); i++){
-                        System.out.println(previousMove.getCards().getCards().get(i));
+                        System.out.print(previousMove.getCards().getCards().get(i) + " ");
                     }
 
                     // pass cards of previous move to previously played card panel to update
