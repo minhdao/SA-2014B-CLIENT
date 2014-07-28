@@ -21,6 +21,7 @@ public class PreviousMovePanel extends JPanel implements Observer {
 
     public PreviousMovePanel(){
         displayCards(Player.getInstance().getPreviousMove());
+        Player.getInstance().addObserver(this); // this panel now observe Player
     }
 
     public void displayCards(Move previousMove){
@@ -35,5 +36,8 @@ public class PreviousMovePanel extends JPanel implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+        if (arg instanceof Move){
+            System.out.println("--------Update previous move panel--------");
+        }
     }
 }
