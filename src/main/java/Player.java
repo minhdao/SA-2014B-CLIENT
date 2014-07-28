@@ -145,7 +145,8 @@ public class Player extends Observable implements Runnable {
                     }
 
                     // pass cards of previous move to previously played card panel to update
-
+                    setChanged();
+                    notifyObservers(previousMove);
                 }
             }
             message = communicator.read();

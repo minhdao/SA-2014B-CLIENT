@@ -37,6 +37,11 @@ public class PreviousMovePanel extends JPanel implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (arg instanceof Move){
+            Move previousMove = (Move) arg;
+            removeAll();
+            displayCards(previousMove);
+            validate();
+            repaint();
             System.out.println("--------Update previous move panel--------");
         }
     }

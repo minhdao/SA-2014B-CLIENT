@@ -40,6 +40,7 @@ public class CardTableFrame extends JFrame {
         add(playerCardPanel, BorderLayout.SOUTH);
         add(GameStatusPanel.getInstance(), BorderLayout.WEST);
         add(PreviousMovePanel.getInstance(), BorderLayout.CENTER);
+//        Player.getInstance().addObserver(PreviousMovePanel.getInstance()); // previous move panel observe Player
 //        setBackground(Color.GREEN);
         setTitle("TIEN LEN - Table");
         setExtendedState(MAXIMIZED_BOTH);
