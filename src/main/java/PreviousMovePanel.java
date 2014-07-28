@@ -10,7 +10,7 @@ import java.util.Observer;
 public class PreviousMovePanel extends JPanel implements Observer {
 
     private static PreviousMovePanel instance = null;
-    private ArrayList<JLabel> cardLabels = new ArrayList<JLabel>();
+    private ArrayList<JLabel> cardLabels;
 
     public static PreviousMovePanel getInstance(){
         if (instance == null){
@@ -26,18 +26,29 @@ public class PreviousMovePanel extends JPanel implements Observer {
 
     public void displayCards(Move previousMove){
         if (previousMove != null) {
+            cardLabels = new ArrayList<JLabel>();
             setLayout(new FlowLayout());
             for (int i = 0; i < previousMove.getCards().getCards().size();i++){
+                System.out.print("cards to be added to cardLabels: " + previousMove.getCards().getCards().get(i));
                 cardLabels.add(new JLabel(new ImageIcon("img/deck/"+previousMove.getCards().getCards().get(i)+".png")));
                 add(cardLabels.get(i));
             }
+            System.out.println();
+            System.out.println("displayCards is running!!!!");
         }
     }
 
     @Override
     public void update(Observable o, Object arg) {
         if (arg instanceof Move){
-            Move previousMove = (Move) arg;
+            Move previousMove =  (Move)arg;
+            System.out.println("-----Inside previous move panel-----");
+            // code to test
+            for (int i =0; i< previousMove.getCards().getCards().size(); i++){
+                System.out.print("Cards in previous move: ");
+                System.out.print(previousMove.getCards().getCards().get(i) + " ");
+            }
+            System.out.println();
             removeAll();
             displayCards(previousMove);
             validate();
