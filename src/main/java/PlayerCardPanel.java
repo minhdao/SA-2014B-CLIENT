@@ -106,12 +106,13 @@ public class PlayerCardPanel extends JPanel implements ActionListener, Observer 
 
     @Override
     public void update(Observable o, Object arg) {
-
+        if (arg instanceof CardDeck){
             removeAll();
             paintGUI();
             validate();
             repaint();
             System.out.println("Update ran!!!!");
 
+        }
     }
 }
