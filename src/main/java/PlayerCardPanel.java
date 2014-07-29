@@ -101,7 +101,17 @@ public class PlayerCardPanel extends JPanel implements ActionListener, Observer 
 
 //            move = new Move(Client.getInstance().getName(), selectedCards);
 //            Client.getInstance().getCommunicator().write(move); // write player's move to server to check
+        }else if(b == pass){
+            Player.getInstance().getCommunicator().write(Status.Pass);
         }
+    }
+
+    public JButton getPlay() {
+        return play;
+    }
+
+    public JButton getPass() {
+        return pass;
     }
 
     @Override
@@ -113,6 +123,19 @@ public class PlayerCardPanel extends JPanel implements ActionListener, Observer 
             repaint();
             System.out.println("Update ran!!!!");
 
+        }else if (arg instanceof Status){
+            Status status = (Status) arg;
+            if (status == Status.Wait){
+                play.setEnabled(false);
+                pass.setEnabled(false);
+                validate();
+                repaint();
+            }else if (status == Status.Continue){
+                play.setEnabled(true);
+                pass.setEnabled(true);
+                validate();
+                repaint();
+            }
         }
     }
 }

@@ -128,10 +128,20 @@ public class Player extends Observable implements Runnable {
 
                 if (status == Status.Valid){
                     updateCardDeck(selectedCards);
-                }
+                    setChanged();
+                    notifyObservers(Status.Wait);
 
-                if (status == Status.Invalid){
+                }else if (status == Status.Continue){
+                    setChanged();
+                    notifyObservers(Status.Continue);
+                }else if (status == Status.Wait){
+                    setChanged();
+                    notifyObservers(Status.Wait);
+                }else if (status == Status.Invalid){
                     GameStatusPanel.getInstance().getTextArea().setText("Invalid Move");
+                    renewSelectedCard();
+                    setChanged();
+                    notifyObservers(selectedCards);
                 }
             }
             if (message instanceof Move){

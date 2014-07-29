@@ -35,12 +35,15 @@ public class StartGameFrame extends JFrame implements MouseListener {
         setLocation(100, 100);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+//        Player.getInstance();
+
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
         this.setVisible(false);
-        Player.getInstance().getCommunicator().write("Minh");
+        Player.getInstance();
+//        Player.getInstance().getCommunicator().write("Minh");
     }
 
     @Override
